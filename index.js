@@ -14,7 +14,7 @@ app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 
-mongoose.connect("mongodb://localhost:27017/shopjsv2");
+mongoose.connect("mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/");
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
