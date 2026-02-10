@@ -73,4 +73,21 @@ router.post("/user/login", async (req, res) => {
   }
 });
 
+// Route temporaire pour migrer les utilisateurs existants (ajouter le champ admin)
+router.get("/user/migrate-admin", async (req, res) => {
+  try {
+    // Mettre à jour tous les utilisateurs qui n'ont pas le champ admin
+    const result = await User.updateMany(
+      { admin: { $exists: false } },
+      { $set: { admin: false } }
+    );
+    return res.json({ 
+      message: "Migration completed", 
+      updated: result.modifiedCount 
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
