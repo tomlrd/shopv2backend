@@ -27,6 +27,7 @@ router.post("/user/signup", async (req, res) => {
       token: token,
       hash: hash,
       salt: salt,
+      admin: false,
     });
 
     await newUser.save();
@@ -36,6 +37,7 @@ router.post("/user/signup", async (req, res) => {
       token: newUser.token,
       username: newUser.username,
       email: newUser.email,
+      admin: newUser.admin,
     };
 
     return res.status(201).json(responseObject);
