@@ -26,9 +26,18 @@ router.get("/products", async (req, res) => {
 
 router.get("/products/:id", async (req, res) => {
   try {
+    console.log("Fetching product with ID:", req.params.id);
     const product = await Product.findById(req.params.id);
+    
+    if (!product) {
+      console.log("Product not found for ID:", req.params.id);
+      return res.status(404).json({ message: "Product not found" });
+    }
+    
+    console.log("Product found:", product.title);
     res.json(product);
   } catch (error) {
+    console.log("Error fetching product:", error.message);
     res.status(500).json({ message: error.message });
   }
 });
