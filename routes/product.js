@@ -5,10 +5,14 @@ const router = express.Router();
 
 router.post("/create-db", async (req, res) => {
   try {
+    console.log("Creating database - deleting existing products...");
     await Product.deleteMany();
+    console.log("Inserting", data.length, "products...");
     await Product.insertMany(data);
-    res.status(201).json({ message: "DB created" });
+    console.log("Database created successfully!");
+    res.status(201).json({ message: "DB created", count: data.length });
   } catch (error) {
+    console.log("Error creating database:", error.message);
     res.status(500).json({ message: error.message });
   }
 });
