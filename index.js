@@ -1,7 +1,5 @@
-// Charger dotenv seulement en développement local (si le fichier .env existe)
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// Charger dotenv (silencieux si le fichier n'existe pas)
+require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -11,12 +9,16 @@ const userRoutes = require("./routes/user.js");
 const productRoutes = require("./routes/product.js");
 const orderRoutes = require("./routes/order.js");
 
+// Fallback pour MONGODB_URI si non défini
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/shopv2?retryWrites=true&w=majority";
+
 // Debug des variables d'environnement
 console.log("=== ENVIRONMENT CHECK ===");
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("PORT:", process.env.PORT);
-console.log("MONGODB_URI exists:", !!process.env.MONGODB_URI);
-console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
+console.log("NODE_ENV:", process.env.NODE_ENV || "not set");
+console.log("PORT:", process.env.PORT || "not set (using 4000)");
+console.log("MONGODB_URI from env:", !!process.env.MONGODB_URI ? "YES" : "NO (using fallback)");
+console.log("MONGODB_URI value:", MONGODB_URI ? "DEFINED" : "UNDEFINED");
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN || "not set");
 console.log("========================");
 
 const app = express();
@@ -33,9 +35,6 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
-
-// Fallback pour MONGODB_URI si non défini (pour Northflank)
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/shopv2?retryWrites=true&w=majority";
 
 mongoose.connect(MONGODB_URI, {
   tls: true,
