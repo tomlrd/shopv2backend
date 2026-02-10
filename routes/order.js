@@ -38,11 +38,14 @@ router.put(
 
 router.get("/orders", isAuthenticated, isAdmin, async (req, res) => {
   try {
-    console.log("orders");
+    console.log("GET /orders - Fetching all orders");
+    console.log("User requesting:", req.user?.username, "Admin:", req.user?.admin);
 
     const orders = await Order.find().populate("owner");
+    console.log("Orders found:", orders.length);
     res.json(orders);
   } catch (error) {
+    console.log("Error fetching orders:", error.message);
     res.status(500).json({ message: error.message });
   }
 });
