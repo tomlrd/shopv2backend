@@ -10,24 +10,22 @@ const productRoutes = require("./routes/product.js");
 const orderRoutes = require("./routes/order.js");
 
 // Fallback pour MONGODB_URI si non défini
-const MONGODB_URI = MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/shopv2?retryWrites=true&w=majority";
+
 // Debug des variables d'environnement
 console.log("=== ENVIRONMENT CHECK ===");
-console.log("NODE_ENV:", NODE_ENV || "not set");
-console.log("PORT:", PORT || "not set (using 4000)");
-console.log(
-  "MONGODB_URI from env:",
-  !!process.env.MONGODB_URI ? "YES" : "NO (using fallback)",
-);
+console.log("NODE_ENV:", process.env.NODE_ENV || "not set");
+console.log("PORT:", process.env.PORT || "not set (using 4000)");
+console.log("MONGODB_URI from env:", !!process.env.MONGODB_URI ? "YES" : "NO (using fallback)");
 console.log("MONGODB_URI value:", MONGODB_URI ? "DEFINED" : "UNDEFINED");
-console.log("CORS_ORIGIN:", CORS_ORIGIN || "not set");
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN || "not set");
 console.log("========================");
 
 const app = express();
 app.use(
   cors({
     origin: [
-      CORS_ORIGIN || "http://localhost:3000",
+      process.env.CORS_ORIGIN || "http://localhost:3000",
       "https://shopv2-sepia.vercel.app",
     ],
   }),
