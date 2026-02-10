@@ -41,7 +41,11 @@ router.get("/orders", isAuthenticated, isAdmin, async (req, res) => {
     console.log("GET /orders - Fetching all orders");
     console.log("User requesting:", req.user?.username, "Admin:", req.user?.admin);
 
-    const orders = await Order.find().populate("owner");
+    const orders = await Order.find()
+      .populate("owner", "username email")
+      .populate("products.product")
+      .sort({ createdAt: -1 });
+    
     console.log("Orders found:", orders.length);
     res.json(orders);
   } catch (error) {
