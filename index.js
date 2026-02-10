@@ -1,4 +1,8 @@
-require("dotenv").config();
+// Charger dotenv seulement en développement local (si le fichier .env existe)
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -6,6 +10,14 @@ const cors = require("cors");
 const userRoutes = require("./routes/user.js");
 const productRoutes = require("./routes/product.js");
 const orderRoutes = require("./routes/order.js");
+
+// Debug des variables d'environnement
+console.log("=== ENVIRONMENT CHECK ===");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("PORT:", process.env.PORT);
+console.log("MONGODB_URI exists:", !!process.env.MONGODB_URI);
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
+console.log("========================");
 
 const app = express();
 app.use(
@@ -22,7 +34,10 @@ app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 
-mongoose.connect(process.env.MONGODB_URI, {
+// Fallback pour MONGODB_URI si non défini (pour Northflank)
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/shopv2?retryWrites=true&w=majority";
+
+mongoose.connect(MONGODB_URI, {
   tls: true,
   tlsAllowInvalidCertificates: false,
   serverSelectionTimeoutMS: 5000,
