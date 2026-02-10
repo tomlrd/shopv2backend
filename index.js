@@ -24,10 +24,18 @@ console.log("========================");
 const app = express();
 app.use(
   cors({
-    origin: [
-      process.env.CORS_ORIGIN || "http://localhost:3000",
-      "https://shopv2-sepia.vercel.app",
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        process.env.CORS_ORIGIN || "http://localhost:3000",
+        "https://shopv2-sepia.vercel.app",
+      ];
+      // Autoriser toutes les URLs Vercel du projet
+      if (!origin || allowedOrigins.includes(origin) || origin.includes("thomas-laroudies-projects.vercel.app")) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   }),
 );
 app.use(express.json());
