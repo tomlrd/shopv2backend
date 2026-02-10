@@ -34,6 +34,8 @@ router.post("/user/signup", async (req, res) => {
     const responseObject = {
       _id: newUser._id,
       token: newUser.token,
+      username: newUser.username,
+      email: newUser.email,
     };
 
     return res.status(201).json(responseObject);
@@ -59,6 +61,8 @@ router.post("/user/login", async (req, res) => {
     const responseObject = {
       _id: userFound._id,
       token: userFound.token,
+      username: userFound.username,
+      email: userFound.email,
       admin: userFound.admin,
     };
     return res.status(200).json(responseObject);
