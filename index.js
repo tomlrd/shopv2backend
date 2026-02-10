@@ -12,7 +12,7 @@ const orderRoutes = require("./routes/order.js");
 // Fallback pour MONGODB_URI si non défini
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://thomaslaroudie_db_user:2dbMAJesP7BWayGf@shopv2.trgnw6d.mongodb.net/shopv2?retryWrites=true&w=majority";
 
-// Debug des variables d'environnement
+// Debug des variables d'environnement au démarrage
 console.log("=== ENVIRONMENT CHECK ===");
 console.log("NODE_ENV:", process.env.NODE_ENV || "not set");
 console.log("PORT:", process.env.PORT || "not set (using 4000)");
